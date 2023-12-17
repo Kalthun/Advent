@@ -10,9 +10,12 @@ fn main() -> std::io::Result<()> {
 
     let mut answer = 0;
 
-    for game in reader.lines()
+    for (index, game) in reader.lines().enumerate()
     {
-        answer += get_power_set(game.unwrap().as_str());
+        if is_valid(game.unwrap().as_str())
+        {
+            answer += index + 1;
+        }
     }
 
     print!("{}", answer);
@@ -21,7 +24,7 @@ fn main() -> std::io::Result<()> {
 
 }
 
-fn get_power_set(game:&str) -> i32
+fn is_valid(game:&str) -> bool
 {
 
     let mut temp: Vec<&str> = game.split(' ').collect();
@@ -30,21 +33,16 @@ fn get_power_set(game:&str) -> i32
     temp.remove(0); // get rid of "#:"
     let mut prev = temp.remove(0); // set first number
 
-    let mut r_min = 0;
-    let mut b_min = 0;
-    let mut g_min = 0;
-
     for w in temp
     {
-        let val = prev.parse::<i32>().unwrap();
         match w
         {
-            "red"|"red,"|"red;" => if val > r_min { r_min = val }
-            "blue"|"blue,"|"blue;" => if val > b_min { b_min = val }
-            "green"|"green,"|"green;" => if val > g_min { g_min = val }
+            "red"|"red,"|"red;" => if prev.parse::<i32>().unwrap() > 12 { return false }
+            "blue"|"blue,"|"blue;" => if prev.parse::<i32>().unwrap() > 14 { return false }
+            "green"|"green,"|"green;" => if prev.parse::<i32>().unwrap() > 13 { return false }
             _=> prev = w,
         }
     }
 
-    return r_min * b_min * g_min;
+    return true;
 }
