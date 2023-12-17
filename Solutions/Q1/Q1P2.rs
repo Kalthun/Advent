@@ -26,7 +26,7 @@ fn main() -> std::io::Result<()> {
 
 fn transform_string(string:&String) -> String
 {
-    let valid = vec!["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+    let valid = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
     let mut temp = 0;
 
     for (index, num) in valid.iter().enumerate()
