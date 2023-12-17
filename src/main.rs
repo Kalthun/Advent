@@ -59,7 +59,7 @@ fn main() -> std::io::Result<()> {
         let mut ratio = 1;
 
         for pair in &num_position_pair
-        {
+        { // could also check adj > 2 and break
             if pair.1.contains(&gear)
             {
                 adjacent += 1;
