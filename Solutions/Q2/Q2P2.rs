@@ -26,8 +26,8 @@ fn get_power_set(game:&str) -> i32
 
     let mut temp: Vec<&str> = game.split(' ').collect();
 
-    temp.remove(0); // get rid of "Game"
-    temp.remove(0); // get rid of "#:"
+    let _ = temp.remove(0); // get rid of "Game"
+    let _ = temp.remove(0); // get rid of "#:"
     let mut prev = temp.remove(0); // set first number
 
     let mut r_min = 0;

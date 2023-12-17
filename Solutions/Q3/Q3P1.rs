@@ -7,12 +7,13 @@ fn main() -> std::io::Result<()> {
 
     let reader = BufReader::new(file);
 
-    let mut gear_positions:Vec<(i32,i32)> = Vec::new();
+    let mut valid_position:Vec<(i32,i32)> = Vec::new();
 
     let mut num_position_pair:Vec<(i32, Vec<(i32,i32)>)> = Vec::new(); // the number and all position that make it valid
 
     let mut answer = 0;
 
+    // consider moving inside
     let mut num = String::new();
     let mut pos: Vec<(i32,i32)> = Vec::new();
     let mut end_of_num;
@@ -27,14 +28,14 @@ fn main() -> std::io::Result<()> {
                 num += c.to_string().as_str();
                 generate_connected(row as i32, col as i32, &mut pos);
             }
-            else if c == '*'
+            else if c == '.'
             {
                 end_of_num = true;
-                gear_positions.push((row as i32, col as i32));
             }
             else
             {
                 end_of_num = true;
+                valid_position.push((row as i32, col as i32));
             }
 
             if end_of_num && !num.is_empty()
@@ -53,23 +54,16 @@ fn main() -> std::io::Result<()> {
         }
     }
 
-    for gear in gear_positions
+    for pair in num_position_pair
     {
-        let mut adjacent = 0;
-        let mut ratio = 1;
-
-        for pair in &num_position_pair
+        for pos in pair.1
         {
-            if pair.1.contains(&gear)
+            if valid_position.contains(&pos)
             {
-                adjacent += 1;
-                ratio *= pair.0;
+                println!("num:{}", pair.0);
+                answer += pair.0;
+                break;
             }
-        }
-
-        if adjacent == 2
-        {
-            answer += ratio;
         }
     }
 
@@ -81,23 +75,13 @@ fn main() -> std::io::Result<()> {
 
 fn generate_connected(row:i32, col:i32, vec:&mut Vec<(i32,i32)>)
 {
-    let mut temp:Vec<(i32,i32)> = Vec::new();
-
-    temp.push((row - 1, col - 1));
-    temp.push((row - 1, col));
-    temp.push((row - 1, col + 1));
-    temp.push((row, col - 1));
-    temp.push((row, col + 1));
-    temp.push((row + 1, col - 1));
-    temp.push((row + 1, col));
-    temp.push((row + 1, col + 1));
-
-    for pos in temp
-    {
-        if !vec.contains(&pos)
-        {
-            vec.push(pos);
-        }
-    }
+    vec.push((row - 1, col - 1));
+    vec.push((row - 1, col));
+    vec.push((row - 1, col + 1));
+    vec.push((row, col - 1));
+    vec.push((row, col + 1));
+    vec.push((row + 1, col - 1));
+    vec.push((row + 1, col));
+    vec.push((row + 1, col + 1));
 }
 
