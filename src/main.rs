@@ -8,14 +8,8 @@ fn main() -> std::io::Result<()> {
 
     let reader = BufReader::new(file);
 
-    let mut answer = 0;
 
-    for game in reader.lines()
-    {
-        answer += get_power_set(game.unwrap().as_str());
-    }
 
-    print!("{}", answer);
 
     Ok(())
 
