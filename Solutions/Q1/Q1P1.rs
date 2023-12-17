@@ -3,7 +3,6 @@ use std::io::{BufRead, BufReader};
 
 fn main() -> std::io::Result<()> {
 
-
     let mut total: Vec<u32> = Vec::new();
 
     // Open the File for Reading
