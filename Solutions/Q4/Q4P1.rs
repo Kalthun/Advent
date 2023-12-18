@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::vec;
 
 fn main() -> std::io::Result<()> {
 
@@ -8,18 +7,16 @@ fn main() -> std::io::Result<()> {
 
     let reader = BufReader::new(file);
 
-    let mut table:Vec<(i32,i32)> = Vec::new();
+    let mut sum:Vec<i32> = Vec::new();
 
-    for (card_num,line) in reader.lines().enumerate()
+    for line in reader.lines()
     {
-        table.push(((card_num as i32 + 1), get_points(line.unwrap())));
+        sum.push(get_points(line.unwrap()));
     }
 
-    let length = table.iter().count();
+    let answer:i32 = sum.iter().sum();
 
-    let mut totals:Vec<i32> = vec![1; length];
-
-    // while...
+    println!("answer: {}", answer);
 
     Ok(())
 
