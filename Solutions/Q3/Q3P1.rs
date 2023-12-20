@@ -11,7 +11,7 @@ fn main() -> std::io::Result<()> {
 
     let mut num_position_pair:Vec<(i32, Vec<(i32,i32)>)> = Vec::new(); // the number and all position that make it valid
 
-    let mut answer = 0;
+    let mut answer = 0; 
 
     // consider moving inside
     let mut num = String::new();
