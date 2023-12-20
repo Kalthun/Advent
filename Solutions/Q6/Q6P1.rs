@@ -9,27 +9,35 @@ fn main() -> std::io::Result<()>
     // get the first line
     let mut time = String::new();
     let _ = reader.read_line(&mut time);
-    let time_split:Vec<&str> = time.split_whitespace().skip(1).collect();
-    let temp1:i64 = time_split.join("").parse::<i64>().unwrap();
+    let mut time_split:Vec<&str> = time.split_whitespace().skip(1).collect();
 
     let mut dist = String::new();
     let _ = reader.read_line(&mut dist);
-    let dist_split:Vec<&str> = dist.split_whitespace().skip(1).collect();
-    let temp2:i64 = dist_split.join("").parse::<i64>().unwrap();
+    let mut dist_split:Vec<&str> = dist.split_whitespace().skip(1).collect();
 
-    let answer:i64 = compute_valid((temp1, temp2));
+    let mut races:Vec<(i32,i32)> = Vec::new();
+    for _ in time_split.clone()
+    {
+        races.push((time_split.remove(0).parse::<i32>().unwrap(), dist_split.remove(0).parse::<i32>().unwrap()));
+    }
+
+    let mut answer = 1;
+    for race in races
+    {
+        answer *= compute_valid(&race);
+    }
 
     println!("answer: {}", answer);
 
     Ok(())
 }
 
-fn compute_distance(speed:i64, time:i64) -> i64
+fn compute_distance(speed:i32, time:i32) -> i32
 {
     return speed * time;
 }
 
-fn compute_valid(race:(i64,i64)) -> i64
+fn compute_valid(race:&(i32,i32)) -> i32
 {
     let mut counter = 0;
     for hold_time in 1..race.0
