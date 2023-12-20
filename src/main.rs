@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::vec;
 
 fn main() -> std::io::Result<()> {
 
@@ -8,71 +7,8 @@ fn main() -> std::io::Result<()> {
 
     let reader = BufReader::new(file);
 
-    let mut table:Vec<(i32,i32)> = Vec::new();
-
-    for (card_num,line) in reader.lines().enumerate()
-    {
-        table.push(((card_num as i32 + 1), get_points(line.unwrap())));
-    }
-
-    let length = table.iter().count();
-
-    let mut totals:Vec<i32> = vec![1; length];
-
-    // while...
+    
 
     Ok(())
 
 }
-
-fn get_points(line:String) -> i32
-{
-    let mut temp:Vec<&str> = line.split_whitespace().collect();
-
-    let _ = temp.remove(0); // get rid of "Card"
-    let _ = temp.remove(0); // get rid of "#:"
-
-    let mut winning_numbers:Vec<i32> = Vec::new();
-    let mut numbers:Vec<i32> = Vec::new();
-    let mut divider_reached = false;
-
-    for sub in temp
-    {
-        if sub.eq("|")
-        {
-            divider_reached = true;
-        }
-        else
-        {
-            if divider_reached == false
-            {
-                winning_numbers.push(sub.parse::<i32>().unwrap());
-            }
-            else
-            {
-                numbers.push(sub.parse::<i32>().unwrap());
-            }
-        }
-    }
-
-    let mut counter = 0;
-
-    for number in numbers
-    {
-        if winning_numbers.contains(&number)
-        {
-            counter += 1;
-        }
-    }
-
-    if counter == 0
-    {
-        return 0;
-    }
-    else
-    {
-        let base:i32 = 2;
-        return base.pow(counter - 1);
-    }
-}
-
