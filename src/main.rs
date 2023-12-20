@@ -24,18 +24,29 @@ fn main() -> std::io::Result<()>
     let mut reader = BufReader::new(file);
 
     // get the first line
-    let mut seed_input = String::new();
-    let _ = reader.read_line(&mut seed_input);
+    let mut seed_info = String::new();
+    let _ = reader.read_line(&mut seed_info);
 
     // convert into Vec of strings
-    let mut seed_list: Vec<&str> = seed_input.split_whitespace().collect();
-    let _ = seed_list.remove(0);
+    let mut seed_pair: Vec<&str> = seed_info.split_whitespace().collect();
+    let _ = seed_pair.remove(0);
 
     // convert into Vec of i64
     let mut seeds: Vec<i64> = Vec::new();
-    for _ in seed_list.clone()
+    let mut start = 0;
+    for (index,_) in seed_pair.clone().iter().enumerate()
     {
-        seeds.push(seed_list.remove(0).parse::<i64>().unwrap());
+        if index % 2 == 0
+        {
+            start = seed_pair.remove(0).parse::<i64>().unwrap();
+        }
+        else
+        {
+            for count in 0..seed_pair.remove(0).parse::<i64>().unwrap()
+            {
+                seeds.push(start + count);
+            }
+        }
     }
 
     let mut s_to_s: Vec<Entry> = Vec::new();
