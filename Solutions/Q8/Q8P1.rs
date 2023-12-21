@@ -30,27 +30,20 @@ fn main() -> std::io::Result<()>
         map.insert(vals.remove(0).to_string(), Point{left:vals.remove(0).to_string(),right:vals.remove(0).to_string()});
     }
 
-    let mut current_positions:Vec<String> = map.keys().filter(|k| k.ends_with('A')).map(|e| e.to_string()).collect();
+    let mut current_position = String::from("AAA");
     let mut steps = 0;
 
-    while !current_positions.iter().all(|pos| pos.ends_with('Z'))
+    while current_position != "ZZZ"
     {
         let dir = *directions.get(steps % directions.len()).unwrap();
-        // println!("{:?} -> dir:{}", current_positions, dir);
-        let mut copy:Vec<String> = Vec::new();
-
-        for pos in current_positions
+        if dir == 'R'
         {
-            if dir == 'R'
-            {
-                copy.push(map.get(&pos).unwrap().right.clone());
-            }
-            else
-            {
-                copy.push(map.get(&pos).unwrap().left.clone());
-            }
+            current_position = map.get(&current_position).unwrap().right.clone();
         }
-        current_positions = copy;
+        else
+        {
+            current_position = map.get(&current_position).unwrap().left.clone();
+        }
         steps += 1;
     }
 
